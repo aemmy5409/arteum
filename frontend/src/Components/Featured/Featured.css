@@ -1,0 +1,31 @@
+.featured {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	height: 90vh;
+	margin-top: 50px;
+}
+
+.featured h1 {
+	color: #171717;
+	font-size: 50px;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
+.featured hr {
+	width: 200px;
+	height: 6px;
+	border-radius: 10px;
+	background: #252525;
+}
+
+.featured-item {
+	margin-top: 50px;
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 20px;
+	padding-left: 50px;
+	padding-right: 50px;
+}
