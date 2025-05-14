@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { userLogout } from "../state/user/authActions";
+import Checkout from "../pages/Checkout";
 
 const Navbar = () => {
 	// State to toggle the mobile menu
 	const [isOpen, setIsOpen] = useState(false);
+	const [cartOpen, setCartOpen] = useState(false);
 
 	// Function to toggle the mobile menu
 	const toggleMenu = () => {
@@ -60,6 +62,7 @@ const Navbar = () => {
 									class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
 									aria-controls="navbar-cta"
 									aria-expanded="false"
+									onClick={() => setCartOpen(true)}
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -77,6 +80,11 @@ const Navbar = () => {
 									</svg>
 									<span>{qty}</span>
 								</button>
+
+								<Checkout
+									cartOpen={cartOpen}
+									setCartOpen={setCartOpen}
+								></Checkout>
 							</>
 						) : (
 							<>
@@ -92,6 +100,7 @@ const Navbar = () => {
 									class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
 									aria-controls="navbar-cta"
 									aria-expanded="false"
+									onClick={() => setCartOpen(true)}
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -109,6 +118,11 @@ const Navbar = () => {
 									</svg>
 									<span>{qty}</span>
 								</button>
+
+								<Checkout
+									cartOpen={cartOpen}
+									setCartOpen={setCartOpen}
+								></Checkout>
 							</>
 						)}
 						<button

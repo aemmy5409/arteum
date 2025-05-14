@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProductDetail from "./pages/ProductDetail";
 import Logout from "./pages/Logout";
+import Checkout from "./pages/Checkout";
 // import ErrorBoundary from "./ErrorBoundary";
 
 import {
@@ -23,6 +24,7 @@ function App() {
 					<Route exact path="/login" element={<Login />} />
 					<Route exact path="/logout" element={<Logout />} />
 					<Route exact path="/register" element={<Register />} />
+					<Route exact path="/checkout" element={<Checkout />} />
 				</Routes>
 			</Router>
 		</>
