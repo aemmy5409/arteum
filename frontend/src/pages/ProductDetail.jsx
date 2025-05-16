@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { productAction } from "../state/product/productActions";
 import { addToCart } from "../state/cart/cartActions";
@@ -9,6 +9,7 @@ import Layout from "../components/Layout";
 const ProductDetail = () => {
 	const { id } = useParams();
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const [qty, setQty] = useState(1);
 
@@ -17,6 +18,7 @@ const ProductDetail = () => {
 	};
 
 	const { product, loading, error } = useSelector((state) => state.product);
+	const { userInfo } = useSelector((state) => state.authReducer);
 
 	useEffect(() => {
 		dispatch(productAction(id));
@@ -193,7 +195,9 @@ const ProductDetail = () => {
 									</span>
 									{product.countInStock > 0 ? (
 										<button
-											onClick={addToCartHandler}
+											onClick={() => {
+												userInfo ? addToCartHandler() : navigate("/login");
+											}}
 											class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
 										>
 											ADD TO CART

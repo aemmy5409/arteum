@@ -7,8 +7,7 @@ import {
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
 
-import { removeFromCart } from "../state/cart/cartReducers";
-import { addToCart } from "../state/cart/cartActions";
+import { addToCart, removeFromCart } from "../state/cart/cartActions";
 
 export default function Checkout({ cartOpen, setCartOpen }) {
 	const dispatch = useDispatch();

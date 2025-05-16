@@ -1,18 +1,15 @@
 // routes/cartRoutes.js
 import express from "express";
 import {
-	getCart,
 	updateCart,
 	clearCart,
+	removeFromCart,
 } from "../controllers/cartController.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
-router
-	.route("/")
-	.get(verifyToken, getCart)
-	.post(verifyToken, updateCart)
-	.delete(verifyToken, clearCart);
+router.route("/").post(verifyToken, updateCart).delete(verifyToken, clearCart);
+router.delete("/:productId", verifyToken, removeFromCart);
 
 export default router;

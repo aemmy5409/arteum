@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import persistReducer from "redux-persist/es/persistReducer";
 
-import { addToCart } from "./cartActions";
+import { addToCart, removeFromCart, clearCart } from "./cartActions";
 
 const cartConfig = {
 	key: "cart",
@@ -18,43 +18,49 @@ const cartSlice = createSlice({
 		paymentMethod: "",
 	},
 	reducers: {
-		removeFromCart: (state, action) => {
-			state.cartItems = state.cartItems.filter(
-				(item) => item.product !== action.payload
-			);
-		},
+		// removeFromCart: (state, action) => {
+		// 	state.cartItems = state.cartItems.filter(
+		// 		(item) => item.product !== action.payload
+		// 	);
+		// },
 		saveShippingAddress: (state, action) => {
 			state.shippingAddress = action.payload;
 		},
 		savePaymentMethod: (state, action) => {
 			state.paymentMethod = action.payload;
 		},
-		clearCart: (state) => {
-			state.cartItems = [];
-		},
+		// clearCart: (state) => {
+		// 	state.cartItems = [];
+		// },
 	},
 	extraReducers: (builder) => {
-		builder.addCase(addToCart.fulfilled, (state, action) => {
-			const item = action.payload;
-			const existItem = state.cartItems.find((x) => x.product === item.product);
-
-			if (existItem) {
-				state.cartItems = state.cartItems.map((x) =>
-					x.product === existItem.product ? item : x
+		builder
+			.addCase(addToCart.fulfilled, (state, action) => {
+				const item = action.payload;
+				const existItem = state.cartItems.find(
+					(x) => x.product === item.product
 				);
-			} else {
-				state.cartItems.push(item);
-			}
-		});
+
+				if (existItem) {
+					state.cartItems = state.cartItems.map((x) =>
+						x.product === existItem.product ? item : x
+					);
+				} else {
+					state.cartItems.push(item);
+				}
+			})
+			.addCase(removeFromCart.fulfilled, (state, action) => {
+				state.cartItems = state.cartItems.filter(
+					(item) => item.product !== action.payload
+				);
+			})
+			.addCase(clearCart.fulfilled, (state) => {
+				state.cartItems = [];
+			});
 	},
 });
 
-export const {
-	removeFromCart,
-	saveShippingAddress,
-	savePaymentMethod,
-	clearCart,
-} = cartSlice.actions;
+export const { saveShippingAddress, savePaymentMethod } = cartSlice.actions;
 
 export const cartReducer = persistReducer(cartConfig, cartSlice.reducer);
 
