@@ -7,7 +7,7 @@ import { addToCart, removeFromCart, clearCart } from "./cartActions";
 const cartConfig = {
 	key: "cart",
 	storage,
-	whitelist: ["cartItems"],
+	whitelist: ["cartItems", "shippingAddress", "paymentMethod"],
 };
 
 const cartSlice = createSlice({
@@ -18,20 +18,12 @@ const cartSlice = createSlice({
 		paymentMethod: "",
 	},
 	reducers: {
-		// removeFromCart: (state, action) => {
-		// 	state.cartItems = state.cartItems.filter(
-		// 		(item) => item.product !== action.payload
-		// 	);
-		// },
 		saveShippingAddress: (state, action) => {
 			state.shippingAddress = action.payload;
 		},
 		savePaymentMethod: (state, action) => {
 			state.paymentMethod = action.payload;
 		},
-		// clearCart: (state) => {
-		// 	state.cartItems = [];
-		// },
 	},
 	extraReducers: (builder) => {
 		builder

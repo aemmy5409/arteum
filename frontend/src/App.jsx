@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import ProductDetail from "./pages/ProductDetail";
 import Logout from "./pages/Logout";
 import Checkout from "./pages/Checkout";
+import PlaceOrder from "./pages/PlaceOrder";
 // import ErrorBoundary from "./ErrorBoundary";
 
 import {
@@ -25,6 +26,7 @@ function App() {
 					<Route exact path="/logout" element={<Logout />} />
 					<Route exact path="/register" element={<Register />} />
 					<Route exact path="/checkout" element={<Checkout />} />
+					<Route exact path="/placeorder" element={<PlaceOrder />} />
 				</Routes>
 			</Router>
 		</>

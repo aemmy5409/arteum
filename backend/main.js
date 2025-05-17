@@ -6,8 +6,8 @@ import cors from "cors";
 import { connectDB } from "./db/connectDB.js";
 import authRoutes from "./routes/authRoute.js";
 import productRoutes from "./routes/productRoute.js";
-import cartRoutes from "./routes/cartRoute.js"
-import orderRoutes from "./routes/orderRoute.js"
+import cartRoutes from "./routes/cartRoute.js";
+import orderRoutes from "./routes/orderRoute.js";
 
 dotenv.config();
 
@@ -22,8 +22,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
-app.use("/api/cart", cartRoutes)
-app.use("/api/orders", cartRoutes)
+app.use("/api/cart", cartRoutes);
+app.use("/api/orders", orderRoutes);
+
+app.get("/api/dev/paypal", (_, res) => {
+	res.send(process.env.PAYPAL_CLIENT_ID);
+});
 
 app.listen(PORT, () => {
 	connectDB();

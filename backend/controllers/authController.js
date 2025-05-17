@@ -212,3 +212,63 @@ export const checkAuth = async (req, res) => {
 		return res.status(500).json({ success: false, message: err.message });
 	}
 };
+
+export const resendVerificationEmail = async (req, res) => {
+	try {
+		const user = await User.findById(req.userId);
+		if (!user) {
+			return res.status(403).json({
+				success: false,
+				message: "Unauthenticated, try to login or register first",
+			});
+		}
+
+		const verificationToken = Math.floor(
+			100000 + Math.random() * 900000
+		).toString();
+
+		user.verificationToken = verificationToken;
+		user.verificationTokenExpiresAt = new Date(
+			Date.now() + 24 * 60 * 60 * 1000
+		);
+
+		await user.save();
+		//await sendVerificationEmail(user.email, verificationToken);
+
+		res.status(201).json({
+			success: true,
+			message: "Verification code sent successfully!",
+			user: { ...user._doc, password: undefined },
+		});
+	} catch (err) {
+		console.log("Error at resend verification email:", err);
+		res.status(500).json({ success: false, message: err.message });
+	}
+};
+
+export const makeAdmin = async (req, res) => {
+	try {
+		const user = await User.findById(req.userId);
+		if (!user) {
+			return res.status(403).json({
+				success: false,
+				message: "Unauthenticated, try to login or register first",
+			});
+		}
+
+		const { code } = req.body;
+		if (code != 123456) {
+			return res
+				.status(400)
+				.json({ success: false, message: "Invalid code provided!" });
+		}
+		(user.isAdmin = true), await user.save();
+		res.status(200).json({
+			success: true,
+			message: "Admin role added successfully!",
+			user: { ...user._doc, password: undefined },
+		});
+	} catch (err) {
+		console.log(err);
+	}
+};
