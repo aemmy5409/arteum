@@ -1,9 +1,11 @@
-import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import axios from "axios";
 
 import Layout from "../components/Layout";
 import CartItem from "../components/CartItem";
+import { createOrder } from "../state/order/orderActions";
 
 const PlaceOrder = () => {
 	const cart = useSelector((state) => state.cartReducer);
@@ -25,6 +27,34 @@ const PlaceOrder = () => {
 		Number(shippingPrice)
 	).toFixed(2);
 
+	const [clientId, setClientId] = useState(null);
+
+	useEffect(() => {
+		getPayPalClientId();
+	});
+
+	const getPayPalClientId = async () => {
+		const { data } = await axios.get(
+			`${import.meta.env.VITE_API_URL}/dev/paypal`
+		);
+		setClientId(data);
+	};
+
+	const dispatch = useDispatch();
+
+	const successPaymentHandler = async () => {
+		try {
+			dispatch(
+				createOrder({
+					shipping: cart.shippingAddress,
+					paymentMethod: "paypal",
+				})
+			);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	const [fullName, setFullName] = useState(shippingAddress.fullName);
 	const [address, setAddress] = useState(shippingAddress.address);
 	const [city, setCity] = useState(shippingAddress.city);
@@ -40,9 +70,10 @@ const PlaceOrder = () => {
 							<h2 class="text-lg title-font text-gray-500 tracking-widest">
 								ORDER SUMMARY
 							</h2>
-							<p class="leading-relaxed mb-4">
+							<div class="leading-relaxed mb-4">
 								<CartItem cartItems={cartItems}></CartItem>
-							</p>
+							</div>
+
 							<div class="flex border-t border-gray-200 py-2">
 								<span class="text-gray-500">Sub Total</span>
 								<span class="ml-auto text-gray-900">${subTotal}</span>
@@ -145,12 +176,29 @@ const PlaceOrder = () => {
 									class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
 								/>
 							</div>
-							<PayPalScriptProvider options={{ clientId: "test" }}>
-								<PayPalButtons
-								//     createOrder={createOrder}
-								//     onApprove={onApprove}
-								/>
-							</PayPalScriptProvider>
+							{clientId && (
+								<PayPalScriptProvider options={{ clientId: clientId }}>
+									<PayPalButtons
+										createOrder={(data, actions) => {
+											return actions.order.create({
+												purchase_units: [
+													{
+														amount: {
+															currency_code: "USD",
+															value: total,
+														},
+													},
+												],
+											});
+										}}
+										onApprove={(data, actions) => {
+											return actions.order.capture().then((details) => {
+												successPaymentHandler(details);
+											});
+										}}
+									/>
+								</PayPalScriptProvider>
+							)}
 						</div>
 					</div>
 				</div>

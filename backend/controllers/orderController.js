@@ -41,7 +41,7 @@ export const createOrder = async (req, res) => {
 
 		const createdOrder = await order.save();
 
-		await Cart.findOneAndDelete({ user: req.userId }); // Clear cart after order
+		// await Cart.findOneAndDelete({ user: req.userId }); // Clear cart after order
 
 		res.status(201).json(createdOrder);
 	} catch (err) {
