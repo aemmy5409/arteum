@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { productListAction } from "../state/product/productActions";
+import Loading from "./Loading";
 
 const Products = () => {
 	const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const Products = () => {
 	return (
 		<div>
 			{loading ? (
-				<h1>loading</h1>
+				<Loading></Loading>
 			) : error ? (
 				<h1>error</h1>
 			) : (
@@ -48,7 +49,7 @@ const Products = () => {
 																</Link>
 															</h3>
 															<p className="mt-1 text-sm text-gray-500">
-																{product.color}
+																{product.artist}
 															</p>
 														</div>
 														<p className="text-sm font-medium text-gray-900">

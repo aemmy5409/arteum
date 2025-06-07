@@ -15,6 +15,7 @@ import {
 	Navigate,
 } from "react-router-dom";
 import OrderHistory from "./pages/OrderHistory";
+import OrderSuccess from "./pages/OrderSuccess";
 
 function App() {
 	return (
@@ -29,6 +30,11 @@ function App() {
 					<Route exact path="/checkout" element={<Checkout />} />
 					<Route exact path="/placeorder" element={<PlaceOrder />} />
 					<Route exact path="/order-history" element={<OrderHistory />} />
+					<Route
+						exact
+						path="/order-success/:orderId"
+						element={<OrderSuccess />}
+					/>
 				</Routes>
 			</Router>
 		</>

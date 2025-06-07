@@ -6,8 +6,10 @@ import axios from "axios";
 import Layout from "../components/Layout";
 import CartItem from "../components/CartItem";
 import { createOrder } from "../state/order/orderActions";
+import { useNavigate } from "react-router-dom";
 
 const PlaceOrder = () => {
+	const navigate = useNavigate();
 	const cart = useSelector((state) => state.cartReducer);
 	const { cartItems, shippingAddress } = cart;
 
@@ -44,12 +46,13 @@ const PlaceOrder = () => {
 
 	const successPaymentHandler = async () => {
 		try {
-			dispatch(
+			const { _id } = await dispatch(
 				createOrder({
 					shipping: cart.shippingAddress,
 					paymentMethod: "paypal",
 				})
 			);
+			navigate(`/order-success/${_id}`);
 		} catch (err) {
 			console.log(err);
 		}

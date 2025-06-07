@@ -26,7 +26,7 @@ const orderSlice = createSlice({
 		},
 		orderPayment: {},
 		orderList: {
-			orders: {},
+			orders: [],
 		},
 		success: false,
 		loading: false,

@@ -67,6 +67,7 @@ export const fetchOrderList = createAsyncThunk(
 	async (_, { dispatch, rejectWithValue }) => {
 		try {
 			const { data } = await axios.get(`${BASE_URL}/orders/my`, config);
+			console.log(data);
 			return data;
 		} catch (err) {
 			const message = err.response?.data?.message || err.message;

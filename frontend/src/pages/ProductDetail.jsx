@@ -20,6 +20,8 @@ const ProductDetail = () => {
 	const { product, loading, error } = useSelector((state) => state.product);
 	const { userInfo } = useSelector((state) => state.authReducer);
 
+	console.log(product);
+
 	useEffect(() => {
 		dispatch(productAction(id));
 	}, [dispatch, id]);
@@ -40,7 +42,7 @@ const ProductDetail = () => {
 							/>
 							<div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
 								<h2 class="text-sm title-font text-gray-500 tracking-widest">
-									ARTIST NAME
+									{product.artist}
 								</h2>
 								<h1 class="text-gray-900 text-3xl title-font font-medium mb-1">
 									{product.name}
@@ -147,14 +149,8 @@ const ProductDetail = () => {
 								</div>
 								<p class="leading-relaxed">{product.description}</p>
 								<div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
-									<div class="flex">
-										<span class="mr-3">Color</span>
-										<button class="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none"></button>
-										<button class="border-2 border-gray-300 ml-1 bg-gray-700 rounded-full w-6 h-6 focus:outline-none"></button>
-										<button class="border-2 border-gray-300 ml-1 bg-indigo-500 rounded-full w-6 h-6 focus:outline-none"></button>
-									</div>
 									{product.countInStock > 0 ? (
-										<div class="flex ml-6 items-center">
+										<div class="flex ml-6 items-center ml-auto mr-10">
 											<span class="mr-3">Quantity</span>
 											<div class="relative">
 												<select

@@ -34,7 +34,7 @@ const productSchema = new mongoose.Schema(
 			required: true,
 			min: 0,
 		},
-		color: {
+		artist: {
 			type: String,
 			required: true,
 		},
